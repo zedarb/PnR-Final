@@ -8,7 +8,8 @@ class Pigo(object):
     def __init__(self):
         print("Pigo online!")
         servo(self.MIDPOINT)
-        if "n" == input("Am I looking straight ahead? (y/n): "):
+        response = input("Am I looking straight ahead? (y/n): ")
+        if response == 'n':
             while True:
                 response = input("Turn right, left, or am I done? (r/l/d): ")
                 if response == "r":
