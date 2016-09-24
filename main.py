@@ -23,6 +23,7 @@ class Pigo(object):
                     servo(self.MIDPOINT)
                 else:
                     print("Midpoint now saved to: " + str(self.MIDPOINT))
+                    break
 
 
 al = Pigo()
