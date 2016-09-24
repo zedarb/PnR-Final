@@ -44,19 +44,19 @@ class Pigo(object):
         self.thinkAloud()
 
     def encF(self, enc):
-        print('Moving '+str(enc/18)+' rotation(s) forward')
+        print('Moving '+str((enc/18))+' rotation(s) forward')
         enc_tgt(1, 1, enc)
         fwd()
         time.sleep((enc/18)*1.8)
 
     def encR(self, enc):
-        print('Moving '+str(enc/18)+' rotation(s) right')
+        print('Moving '+str((enc/18))+' rotation(s) right')
         enc_tgt(1, 1, enc)
         right_rot()
         time.sleep((enc/18)*1.8)
 
     def encL(self, enc):
-        print('Moving '+str(enc/18)+' rotation(s) left')
+        print('Moving '+str((enc/18))+' rotation(s) left')
         enc_tgt(1, 1, enc)
         left_rot()
         time.sleep((enc/18)*1.8)
