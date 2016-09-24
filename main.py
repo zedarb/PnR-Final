@@ -25,7 +25,7 @@ class Pigo(object):
                     print("Midpoint now saved to: " + self.MIDPOINT)
 
 
-calibrate()
+al = Pigo()
 
 
 
