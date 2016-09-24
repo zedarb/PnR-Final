@@ -70,7 +70,7 @@ class Pigo(object):
             elif select == 'l':
                 self.encL(enc)
             elif select == 'e':
-                enc = input('New encode value: ')
+                enc = int(input('New encode value: '))
             else:
                 break
 
