@@ -1,3 +1,5 @@
+# STUDENTS SHOULD NOT EDIT THIS FILE. IT WILL MAKE UPDATING MORE DIFFICULT
+
 from gopigo import *
 import time
 
@@ -11,11 +13,11 @@ class Pigo(object):
     scan = [None] * 180
 
     def __init__(self):
-        #this makes sure the parent handler doesn't take over student's
+        # this makes sure the parent handler doesn't take over student's
         if __name__ == "__main__":
-            print("-----------------------")
-            print("------- PARENT --------")
-            print("-----------------------")
+            print('-----------------------')
+            print('------- PARENT --------')
+            print('-----------------------')
             self.calibrate()
             # let's use an event-driven model, make a handler of sorts to listen for "events"
             while True:
