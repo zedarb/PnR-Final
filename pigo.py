@@ -40,6 +40,7 @@ class Pigo(object):
     def nav(self):
         print("Pigo nav")
         self.wideSweep()
+        self.thinkAloud()
 
     def rotate(self):
         print('Rotate')
@@ -48,7 +49,7 @@ class Pigo(object):
         print('Dance')
 
     def wideSweep(self):
-        for x in range(20, 160, +2):
+        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
             servo(x)
             time.sleep(.1)
             scan = us_dist(15)
@@ -56,13 +57,26 @@ class Pigo(object):
             print("Degree: "+str(x)+", distance: "+str(scan))
             time.sleep(.01)
 
+    def thinkAloud(self):
+        print('Considering options...')
+        avgRight = 0;
+        avgLeft = 0;
+        for x in range(self.MIDPOINT-60, self.MIDPOINT):
+            avgRight += self.scan[x]
+        avgRight /= 60
+        print('The average dist on the right is '+str(avgRight)+'cm')
+        for x in range(self.MIDPOINT, self.MIDPOINT+60):
+            avgLeft += self.scan[x]
+        avgLeft /= 60
+        print('The average dist on the left is ' + str(avgLeft) + 'cm')
+
     def stop(self):
         print('All stop.')
-        servo(self.MIDPOINT)
-        time.sleep(0.01)
-        disable_servo()
         for x in range(3):
             stop()
+        servo(self.MIDPOINT)
+        time.sleep(0.05)
+        disable_servo()
 
     def calibrate(self):
         print("Calibrating...")
