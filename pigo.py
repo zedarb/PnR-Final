@@ -43,14 +43,36 @@ class Pigo(object):
         self.wideSweep()
         self.thinkAloud()
 
-    def oneRotFwd(self):
-        print('Setting an encoder forward')
+    def oneFwd(self):
+        print('Moving one rotation forward')
         enc_tgt(1, 1, 18)
         fwd()
-        time.sleep(2)
+        time.sleep(1.8)
+
+    def oneRight(self):
+        print('Moving one rotation forward')
+        enc_tgt(1, 1, 18)
+        right_rot()
+        time.sleep(1.8)
+
+    def oneLeft(self):
+        print('Moving one rotation forward')
+        enc_tgt(1, 1, 18)
+        left_rot()
+        time.sleep(1.8)
 
     def rotate(self):
-        print('Parent rotate')
+        select = input('Am I facing the right way? (y/n): ')
+        if select == 'n':
+            while True:
+                select = input('Right, left or am I done? (r/l/d): ')
+                if select == 'r':
+                    self.oneRight()
+                if select == 'l':
+                    self.oneLeft()
+                else:
+                    break
+
 
     def dance(self):
         print('Parent dance')
