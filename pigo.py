@@ -29,7 +29,7 @@ class Pigo(object):
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
                 "4": ("Calibrate", self.calibrate),
-                "5": ("Forward", self.oneRotFwd),
+                "5": ("Forward", self.oneFwd),
                 "Q": ("Quit", quit)
                 }
         for key in sorted(menu.keys()):
