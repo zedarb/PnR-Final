@@ -8,7 +8,7 @@ class Pigo(object):
         print("Pigo online!")
         self.calibrate()
 
-    def calibrate():
+    def calibrate(self):
         print("Calibrating...")
         servo(self.MIDPOINT)
         response = input("Am I looking straight ahead? (y/n): ")
