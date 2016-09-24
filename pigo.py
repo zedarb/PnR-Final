@@ -44,7 +44,7 @@ class Pigo(object):
 
     def nav(self):
         print("Parent nav")
-        self.wideSweep()
+        #self.wideScan()
         self.thinkAloud()
         print(self.isClear())
 
