@@ -29,8 +29,8 @@ class Pigo(object):
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
                 "4": ("Calibrate", self.calibrate),
-                "5": ("Forward", self.oneFwd),
-                "Q": ("Quit", quit)
+                "5": ("Forward", self.encF),
+                "q": ("Quit", quit)
                 }
         for key in sorted(menu.keys()):
             print(key + ":" + menu[key][0])
@@ -43,36 +43,36 @@ class Pigo(object):
         self.wideSweep()
         self.thinkAloud()
 
-    def oneFwd(self):
-        print('Moving one rotation forward')
-        enc_tgt(1, 1, 18)
+    def encF(self, enc):
+        print('Moving '+str(enc/18)+' rotation(s) forward')
+        enc_tgt(1, 1, enc)
         fwd()
-        time.sleep(1.8)
+        time.sleep((enc/18)*1.8)
 
-    def oneRight(self):
-        print('Moving one rotation forward')
-        enc_tgt(1, 1, 18)
+    def encR(self, enc):
+        print('Moving '+str(enc/18)+' rotation(s) right')
+        enc_tgt(1, 1, enc)
         right_rot()
-        time.sleep(1.8)
+        time.sleep((enc/18)*1.8)
 
-    def oneLeft(self):
-        print('Moving one rotation forward')
-        enc_tgt(1, 1, 18)
+    def encL(self, enc):
+        print('Moving '+str(enc/18)+' rotation(s) left')
+        enc_tgt(1, 1, enc)
         left_rot()
-        time.sleep(1.8)
+        time.sleep((enc/18)*1.8)
 
     def rotate(self):
-        select = input('Am I facing the right way? (y/n): ')
-        if select == 'n':
-            while True:
-                select = input('Right, left or am I done? (r/l/d): ')
-                if select == 'r':
-                    self.oneRight()
-                if select == 'l':
-                    self.oneLeft()
-                else:
-                    break
-
+        enc = 18
+        while True:
+            select = input('Right, left or encode? (r/l/e): ')
+            if select == 'r':
+                self.encR(enc)
+            elif select == 'l':
+                self.encL(enc)
+            elif select == 'e':
+                enc = input('New encode value: ')
+            else:
+                break
 
     def dance(self):
         print('Parent dance')
