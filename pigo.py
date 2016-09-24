@@ -29,7 +29,8 @@ class Pigo(object):
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
                 "4": ("Calibrate", self.calibrate),
-                "5": ("Quit", quit)
+                "5": ("Forward", self.oneRotFwd),
+                "Q": ("Quit", quit)
                 }
         for key in sorted(menu.keys()):
             print(key + ":" + menu[key][0])
@@ -38,15 +39,21 @@ class Pigo(object):
         menu.get(ans, [None, error])[1]()
 
     def nav(self):
-        print("Pigo nav")
+        print("Parent nav")
         self.wideSweep()
         self.thinkAloud()
 
+    def oneRotFwd(self):
+        print('Setting an encoder forward')
+        enc_tgt(1, 1, 18)
+        fwd()
+        time.sleep(2)
+
     def rotate(self):
-        print('Rotate')
+        print('Parent rotate')
 
     def dance(self):
-        print('Dance')
+        print('Parent dance')
 
     def flushScan(self):
         self.scan = [None]*180
