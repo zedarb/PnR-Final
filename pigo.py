@@ -44,9 +44,19 @@ class Pigo(object):
 
     def nav(self):
         print("Parent nav")
-        #self.wideScan()
-        self.thinkAloud()
-        print(self.isClear())
+        while True:
+            choice = self.choosePath()
+            if choice == "fwd":
+                self.encF(18)
+                while self.isClear():
+                    self.encF(18)
+            elif choice == "right":
+                self.encR(6)
+            elif choice == "left":
+                self.encL(6)
+            else:
+                print("Can't find a path ahead.")
+                break
 
     ##DANCING IS FOR THE CHILD CLASS
     def dance(self):
@@ -113,7 +123,7 @@ class Pigo(object):
             time.sleep(.01)
 
     def isClear(self) -> bool:
-        for x in range((self.MIDPOINT - 15), (self.MIDPOINT + 15)):
+        for x in range((self.MIDPOINT - 15), (self.MIDPOINT + 15), 5):
             servo(x)
             time.sleep(.1)
             scan1 = us_dist(15)
@@ -134,8 +144,13 @@ class Pigo(object):
                 return False
         return True
 
-    def thinkAloud(self):
+    #DECIDE WHICH WAY TO TURN
+    def choosePath(self) -> str:
         print('Considering options...')
+        if self.isClear():
+            return "fwd"
+        else:
+            self.wideScan()
         avgRight = 0
         avgLeft = 0
         for x in range(self.MIDPOINT-60, self.MIDPOINT):
@@ -148,6 +163,10 @@ class Pigo(object):
                 avgLeft += self.scan[x]
         avgLeft /= 60
         print('The average dist on the left is ' + str(avgLeft) + 'cm')
+        if avgRight > avgLeft:
+            return "right"
+        else:
+            return "left"
 
     def stop(self):
         print('All stop.')
