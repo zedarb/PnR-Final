@@ -22,7 +22,7 @@ class Pigo(object):
                     self.MIDPOINT -= 1
                     servo(self.MIDPOINT)
                 else:
-                    print("Midpoint now saved to: " + self.MIDPOINT)
+                    print("Midpoint now saved to: " + str(self.MIDPOINT))
 
 
 al = Pigo()
