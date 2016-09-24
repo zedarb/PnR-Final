@@ -39,12 +39,22 @@ class Pigo(object):
 
     def nav(self):
         print("Pigo nav")
+        self.wideSweep()
 
     def rotate(self):
         print('Rotate')
 
     def dance(self):
         print('Dance')
+
+    def wideSweep(self):
+        for x in range(20, 160, +2):
+            servo(x)
+            time.sleep(.1)
+            scan = us_dist(15)
+            self.scan[x] = scan
+            print("Degree: "+str(x)+", distance: "+str(scan))
+            time.sleep(.01)
 
     def stop(self):
         print('All stop.')
