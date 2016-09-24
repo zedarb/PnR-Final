@@ -14,7 +14,7 @@ class Pigo(object):
         response = input("Am I looking straight ahead? (y/n): ")
         if response == 'n':
             while True:
-                response = input("Turn right, left, or am I done? (r/l/d): "))
+                response = input("Turn right, left, or am I done? (r/l/d): ")
                 if response == "r":
                     self.MIDPOINT += 1
                     servo(self.MIDPOINT)
