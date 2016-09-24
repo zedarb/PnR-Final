@@ -48,7 +48,13 @@ class Pigo(object):
     def dance(self):
         print('Dance')
 
+    def flushScan(self):
+        for x in self.scan:
+            self.scan[x] = None
+
     def wideSweep(self):
+        #dump all values
+        self.flushScan()
         for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
             servo(x)
             time.sleep(.1)
@@ -62,11 +68,13 @@ class Pigo(object):
         avgRight = 0;
         avgLeft = 0;
         for x in range(self.MIDPOINT-60, self.MIDPOINT):
-            avgRight += self.scan[x]
+            if self.scan[x]:
+                avgRight += self.scan[x]
         avgRight /= 60
         print('The average dist on the right is '+str(avgRight)+'cm')
         for x in range(self.MIDPOINT, self.MIDPOINT+60):
-            avgLeft += self.scan[x]
+            if self.scan[x]:
+                avgLeft += self.scan[x]
         avgLeft /= 60
         print('The average dist on the left is ' + str(avgLeft) + 'cm')
 
