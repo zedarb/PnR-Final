@@ -11,7 +11,9 @@ improve the parent class and it won't overwrite your work.
 
 class GoPiggy(pigo.Pigo):
     # CUSTOM INSTANCE VARIABLES GO HERE. You get the empty self.scan array from Pigo
+    # You may want to add a variable to store your default speed
     MIDPOINT = 90
+    STOP_DIST = 20
 
     # CONSTRUCTOR
     def __init__(self):
@@ -30,8 +32,8 @@ class GoPiggy(pigo.Pigo):
         menu = {"1": ("Navigate forward", self.nav),
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
-                "4": ("Calibrate", self.calibrate),
-                "5": ("Quit", quit)
+                "4": ("Calibrate servo", self.calibrate),
+                "q": ("Quit", quit)
                 }
         # loop and print the menu...
         for key in sorted(menu.keys()):

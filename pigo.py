@@ -10,6 +10,7 @@ import time
 
 class Pigo(object):
     MIDPOINT = 77
+    STOP_DIST = 20
     scan = [None] * 180
 
     def __init__(self):
@@ -18,17 +19,19 @@ class Pigo(object):
             print('-----------------------')
             print('------- PARENT --------')
             print('-----------------------')
-            self.calibrate()
             # let's use an event-driven model, make a handler of sorts to listen for "events"
             while True:
                 self.stop()
                 self.handler()
 
+    ########################################
+    #### FUNCTIONS REPLACED IN CHILD CHILD
+    #Parent's handler is replaced by child's
     def handler(self):
         menu = {"1": ("Navigate forward", self.nav),
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
-                "4": ("Calibrate", self.calibrate),
+                "4": ("Calibrate servo", self.calibrate),
                 "5": ("Forward", self.encF),
                 "q": ("Quit", quit)
                 }
@@ -38,11 +41,19 @@ class Pigo(object):
         ans = input("Your selection: ")
         menu.get(ans, [None, error])[1]()
 
+
     def nav(self):
         print("Parent nav")
         self.wideSweep()
         self.thinkAloud()
+        print(self.isClear())
 
+    ##DANCING IS FOR THE CHILD CLASS
+    def dance(self):
+        print('Parent dance is lame.')
+
+    ########################################
+    ##### FUNCTIONS NOT INTENDED TO BE OVERWRITTEN
     def encF(self, enc):
         print('Moving '+str((enc/18))+' rotation(s) forward')
         enc_tgt(1, 1, enc)
@@ -61,7 +72,9 @@ class Pigo(object):
         left_rot()
         time.sleep((enc/18)*1.8)
 
+    #HELP STUDENTS LEARN HOW TO PORTION ENCODE VALUES
     def rotate(self):
+        #initial encoder value = 1 wheel rotation
         enc = 18
         while True:
             select = input('Right, left or encode? (r/l/e): ')
@@ -74,27 +87,57 @@ class Pigo(object):
             else:
                 break
 
-    def dance(self):
-        print('Parent dance')
-
+    ##DUMP ALL VALUES IN THE SCAN ARRAY
     def flushScan(self):
         self.scan = [None]*180
 
-    def wideSweep(self):
+    #SEARCH 120 DEGREES COUNTING BY 2's
+    def wideScan(self):
         #dump all values
         self.flushScan()
         for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
             servo(x)
             time.sleep(.1)
-            scan = us_dist(15)
-            self.scan[x] = scan
-            print("Degree: "+str(x)+", distance: "+str(scan))
+            scan1 = us_dist(15)
+            time.sleep(.1)
+            #double check the distance
+            scan2 = us_dist(15)
+            #if I found a different distance the second time....
+            if abs(scan1 - scan2) > 2:
+                scan3 = us_dist(15)
+                time.sleep(.1)
+                #take another scan and average the three together
+                scan1 = (scan1+scan2+scan3)/3
+            self.scan[x] = scan1
+            print("Degree: "+str(x)+", distance: "+str(scan1))
             time.sleep(.01)
+
+    def isClear(self) -> bool:
+        for x in range((self.MIDPOINT - 15), (self.MIDPOINT + 15)):
+            servo(x)
+            time.sleep(.1)
+            scan1 = us_dist(15)
+            time.sleep(.1)
+            # double check the distance
+            scan2 = us_dist(15)
+            time.sleep(.1)
+            # if I found a different distance the second time....
+            if abs(scan1 - scan2) > 2:
+                scan3 = us_dist(15)
+                time.sleep(.1)
+                # take another scan and average the three together
+                scan1 = (scan1 + scan2 + scan3) / 3
+            self.scan[x] = scan1
+            print("Degree: " + str(x) + ", distance: " + str(scan1))
+            if scan1 < self.STOP_DIST:
+                print("Doesn't look clear to me")
+                return False
+        return True
 
     def thinkAloud(self):
         print('Considering options...')
-        avgRight = 0;
-        avgLeft = 0;
+        avgRight = 0
+        avgLeft = 0
         for x in range(self.MIDPOINT-60, self.MIDPOINT):
             if self.scan[x]:
                 avgRight += self.scan[x]
