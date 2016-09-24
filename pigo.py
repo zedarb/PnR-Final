@@ -49,8 +49,7 @@ class Pigo(object):
         print('Dance')
 
     def flushScan(self):
-        for x in self.scan:
-            self.scan[x] = None
+        self.scan = [None]*180
 
     def wideSweep(self):
         #dump all values
