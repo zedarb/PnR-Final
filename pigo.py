@@ -11,12 +11,13 @@ class Pigo(object):
     scan = [None] * 180
 
     def __init__(self):
-        print("Pigo online!")
-        self.calibrate()
-        # let's use an event-driven model, make a handler of sorts to listen for "events"
-        while True:
-            self.stop()
-            self.handler()
+        if __name__ == "__main__":
+            print("Pigo online!")
+            self.calibrate()
+            # let's use an event-driven model, make a handler of sorts to listen for "events"
+            while True:
+                self.stop()
+                self.handler()
 
     def handler(self):
         menu = {"1": ("Navigate forward", self.__nav),
