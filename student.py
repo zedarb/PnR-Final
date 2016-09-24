@@ -14,7 +14,7 @@ class GoPiggy(pigo.Pigo):
             self.stop()
             self.handler()
 
-    def nav(self):
+    def __nav(self):
         print("Piggy nav")
 
 

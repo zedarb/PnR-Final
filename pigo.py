@@ -19,7 +19,7 @@ class Pigo(object):
             self.handler()
 
     def handler(self):
-        menu = {"1": ("Navigate forward", self.nav),
+        menu = {"1": ("Navigate forward", self.__nav),
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
                 "4": ("Calibrate", self.calibrate),
@@ -28,10 +28,10 @@ class Pigo(object):
         for key in sorted(menu.keys()):
             print(key + ":" + menu[key][0])
 
-        ans = input("Make A Choice")
+        ans = input("Your selection: ")
         menu.get(ans, [None, error])[1]()
 
-    def nav(self):
+    def __nav(self):
         print("Pigo nav")
 
     def rotate(self):
@@ -46,7 +46,7 @@ class Pigo(object):
         time.sleep(0.01)
         disable_servo()
         for x in range(3):
-            print(stop())
+            stop()
 
     def calibrate(self):
         print("Calibrating...")
