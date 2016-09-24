@@ -11,8 +11,11 @@ class Pigo(object):
     scan = [None] * 180
 
     def __init__(self):
+        #this makes sure the parent handler doesn't take over student's
         if __name__ == "__main__":
-            print("Pigo online!")
+            print("-----------------------")
+            print("------- PARENT --------")
+            print("-----------------------")
             self.calibrate()
             # let's use an event-driven model, make a handler of sorts to listen for "events"
             while True:
@@ -20,7 +23,7 @@ class Pigo(object):
                 self.handler()
 
     def handler(self):
-        menu = {"1": ("Navigate forward", self.__nav),
+        menu = {"1": ("Navigate forward", self.nav),
                 "2": ("Rotate", self.rotate),
                 "3": ("Dance", self.dance),
                 "4": ("Calibrate", self.calibrate),
@@ -32,7 +35,7 @@ class Pigo(object):
         ans = input("Your selection: ")
         menu.get(ans, [None, error])[1]()
 
-    def __nav(self):
+    def nav(self):
         print("Pigo nav")
 
     def rotate(self):
