@@ -48,6 +48,7 @@ class GoPiggy(pigo.Pigo):
     def dance(self):
         print("Piggy dance")
         ##### WRITE YOUR FIRST PROJECT HERE
+        print('it is safe to dance')
         for x in range(100,200,24):
             while self.isClear() and x <= 200:
                 self.encR(18)
@@ -59,8 +60,8 @@ class GoPiggy(pigo.Pigo):
                 left_rot(8)
                 self.encF(5)
                 servo(120)
-                time.sleep(.4)
-                x += 25
+                time.sleep(.1)
+                x += 10
                 stop()
 
 
