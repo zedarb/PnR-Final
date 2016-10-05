@@ -49,15 +49,20 @@ class GoPiggy(pigo.Pigo):
         print("Piggy dance")
         ##### WRITE YOUR FIRST PROJECT HERE
         for x in range(100,200,24):
-            print ('speed is set to: ' +str(x))
-            set_speed(x)
-            self.encB(5)
-            self.encR(2)
-            self.encL(2)
-            self.encF(5)
-            servo(120)
-            time.sleep(.1)
-            left_rot(4)
+            while self.isClear() and x <= 200:
+                self.encR(18)
+                print ('speed is set to: ' +str(x))
+                set_speed(x)
+                self.encB(5)
+                self.encR(2)
+                self.encL(2)
+                left_rot(8)
+                self.encF(5)
+                servo(120)
+                time.sleep(.4)
+                x += 25
+                stop()
+
 
     def status(self):
         print('My power is at  ' + str(volt())+ '  volts')
