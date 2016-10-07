@@ -54,14 +54,13 @@ class GoPiggy(pigo.Pigo):
                 self.encR(18)
                 print ('speed is set to: ' +str(x))
                 set_speed(x)
-                self
                 self.encB(12)
                 self.encR(24)
                 self.encL(12)
                 self.encF(24)
                 servo(120)
                 time.sleep(.1)
-                x += 10
+                x += 25
                 stop()
 
 
