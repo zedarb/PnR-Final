@@ -61,7 +61,7 @@ class GoPiggy(pigo.Pigo):
             self.encF(14)
             self.encR(22)
             self.encL(22)
-            self.servo(20)
+            servo(20)
             set_speed(x)
             self.encL(15)
             self.encr(15)
