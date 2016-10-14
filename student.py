@@ -62,9 +62,8 @@ class GoPiggy(pigo.Pigo):
             self.encR(22)
             self.encL(22)
             servo(20)
-            set_speed(x)
             self.encL(15)
-            self.encr(15)
+            self.encR(15)
             x += 25
             time.sleep(.1)
             stop()
