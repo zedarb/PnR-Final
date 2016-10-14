@@ -49,7 +49,11 @@ class GoPiggy(pigo.Pigo):
         print("Piggy dance")
         ##### WRITE YOUR FIRST PROJECT HERE
         print('it is safe to dance')
-        x = 175
+        for x in range(3):
+            if not self.isClear():
+                print ("its not safe brotha")
+                break
+            x = 175
         while self.isClear() and x <= 200:
             print ('speed is set to: ' +str(x))
             encL(15)
