@@ -56,11 +56,11 @@ class GoPiggy(pigo.Pigo):
             x = 175
         while self.isClear() and x <= 200:
             print ('speed is set to: ' +str(x))
-            self.encL(15)
-            self.encB(10)
-            self.encF(2)
-            self.encR(4)
-            self.encL(4)
+            self.encL(20)
+            self.encB(18)
+            self.encF(14)
+            self.encR(22)
+            self.encL(22)
             self.servo(20)
             set_speed(x)
             self.encL(15)
