@@ -90,7 +90,7 @@ class GoPiggy(pigo.Pigo):
         while True:
             while self.isClear():
             #go forward, but only a little
-            self.encF(10)
+                self.encF(10)
             #if path is not clear move left or right
             answer = self. choosePath()
             if answer == "right":
