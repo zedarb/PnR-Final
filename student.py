@@ -98,7 +98,7 @@ class GoPiggy(pigo.Pigo):
             answer = self. choosePath()
             if answer == "right":
                 self.encR(6)
-            if answer == "left":
+            elif answer == "left":
                 self.encL(6)
 
     def testDrive(self):
