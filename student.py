@@ -14,6 +14,8 @@ class GoPiggy(pigo.Pigo):
     # You may want to add a variable to store your default speed
     MIDPOINT = 88
     STOP_DIST = 20
+    RIGHT_SPEED = 180
+    LEFT_SPEED = 180
 
 
     # CONSTRUCTOR
@@ -22,6 +24,7 @@ class GoPiggy(pigo.Pigo):
         # this method makes sure Piggy is looking forward
         #self.calibrate()
         # let's use an event-driven model, make a handler of sorts to listen for "events"
+        self.setSpeed(self.LEFT_SPEED, self.RIGHT_SPEED)
         while True:
             self.stop()
             self.handler()
@@ -98,6 +101,16 @@ class GoPiggy(pigo.Pigo):
             if answer == "left":
                 self.encL(6)
 
+    def testDrive(self):
+        print ("Here I go")
+        fwd()
+        while True:
+            if us_dist(15) < self.STOP_DIST:
+                break
+            time.sleep(.05)
+        self.stop()
+    def chooseBetter(selfself):
+        se
 
 ####################################################
 ############### STATIC FUNCTIONS
