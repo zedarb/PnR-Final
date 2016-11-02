@@ -1,230 +1,190 @@
-# STUDENTS SHOULD NOT EDIT THIS FILE. IT WILL MAKE UPDATING MORE DIFFICULT
+#GOPIGO AUTONOMOUS, INSTANTIATED CLASS
+#GoPiGo API: http://www.dexterindustries.com/GoPiGo/programming/python-programming-for-the-raspberry-pi-gopigo/
 
 from gopigo import *
 import time
 
+#Global variable on how close an object is allowed to get
+STOP_DIST = 50
 
-##########################################################
-#################### PIGO PARENT CLASS
-#### (students will make their own class & inherit this)
+class Pigo:
 
-class Pigo(object):
-    MIDPOINT = 77
-    STOP_DIST = 20
-    scan = [None] * 180
+    #######
+    #######  BASIC STATUS AND METHODS
+    #######
 
+    #status array holds lots of key information. access it using self.status["KEY"]
+    status = {"ismoving": False, "servo": 90, "leftspeed": 175,
+              "rightspeed": 175, 'dist': 100, "wentleft": True}
+    vision = [None] * 180  #will hold our sensor data
+    STEPPER = 5  #keeps track of how fast we count up in our servo sweeps
+
+    # this method means we're working with an instantiated object
     def __init__(self):
-        # this makes sure the parent handler doesn't take over student's
-        if __name__ == "__main__":
-            print('-----------------------')
-            print('------- PARENT --------')
-            print('-----------------------')
-            # let's use an event-driven model, make a handler of sorts to listen for "events"
-            while True:
-                self.stop()
-                self.handler()
-
-    ########################################
-    #### FUNCTIONS REPLACED IN CHILD CHILD
-    #Parent's handler is replaced by child's
-    def handler(self):
-        menu = {"1": ("Navigate forward", self.nav),
-                "2": ("Rotate", self.rotate),
-                "3": ("Dance", self.dance),
-                "4": ("Calibrate servo", self.calibrate),
-                "5": ("Forward", self.encF),
-                "q": ("Quit", quit)
-                }
-        for key in sorted(menu.keys()):
-            print(key + ":" + menu[key][0])
-
-        ans = input("Your selection: ")
-        menu.get(ans, [None, error])[1]()
-
-
-    def nav(self):
-        print("Parent nav")
-        while True:
-            choice = self.choosePath()
-            if choice == "fwd":
-                self.encF(18)
-                while self.isClear():
-                    self.encF(18)
-            elif choice == "right":
-                self.encR(6)
-            elif choice == "left":
-                self.encL(6)
-            else:
-                print("Can't find a path ahead.")
-                break
-
-    ##DANCING IS FOR THE CHILD CLASS
-    def dance(self):
-        print('Parent dance is lame.')
-        for x in range(self.MIDPOINT-20, self.MIDPOINT+20, 5):
-            servo(x)
-            time.sleep(.1)
-        self.encB(5)
-        self.encR(5)
-        self.encL(5)
-        self.encF(5)
-        for x in range(self.MIDPOINT-20, self.MIDPOINT+20, 10):
-            servo(x)
-            time.sleep(.1)
-
-
-
-    ########################################
-    ##### FUNCTIONS NOT INTENDED TO BE OVERWRITTEN
-    def encF(self, enc):
-        print('Moving '+str((enc/18))+' rotation(s) forward')
-        enc_tgt(1, 1, enc)
-        fwd()
-        time.sleep((enc/18)*1.8)
-        stop()
-    def encR(self, enc):
-        print('Moving '+str((enc/18))+' rotation(s) right')
-        enc_tgt(1, 1, enc)
-        right_rot()
-        time.sleep((enc/18)*1.8)
-        stop()
-    def encL(self, enc):
-        print('Moving '+str((enc/18))+' rotation(s) left')
-        enc_tgt(1, 1, enc)
-        left_rot()
-        time.sleep((enc/18)*1.8)
-        stop()
-    def encB(self, enc):
-        print('Moving '+str((enc/18))+ ' rotations(s) backwards')
-        enc_tgt(1, 1, enc)
-        bwd()
-        time.sleep((enc/18)*1.8)
-        stop()
-    #HELP STUDENTS LEARN HOW TO PORTION ENCODE VALUES
-    def rotate(self):
-        #initial encoder value = 1 wheel rotation
-        enc = 18
-        while True:
-            select = input('Right, left or encode? (r/l/e): ')
-            if select == 'r':
-                self.encR(enc)
-            elif select == 'l':
-                self.encL(enc)
-            elif select == 'e':
-                enc = int(input('New encode value: '))
-            else:
-                break
-
-    ##DUMP ALL VALUES IN THE SCAN ARRAY
-    def flushScan(self):
-        self.scan = [None]*180
-
-    #SEARCH 120 DEGREES COUNTING BY 2's
-    def wideScan(self):
-        #dump all values
-        self.flushScan()
-        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
-            servo(x)
-            time.sleep(.1)
-            scan1 = us_dist(15)
-            time.sleep(.1)
-            #double check the distance
-            scan2 = us_dist(15)
-            #if I found a different distance the second time....
-            if abs(scan1 - scan2) > 2:
-                scan3 = us_dist(15)
-                time.sleep(.1)
-                #take another scan and average the three together
-                scan1 = (scan1+scan2+scan3)/3
-            self.scan[x] = scan1
-            print("Degree: "+str(x)+", distance: "+str(scan1))
-            time.sleep(.01)
-
-    def isClear(self) -> bool:
-        for x in range((self.MIDPOINT - 15), (self.MIDPOINT + 15), 5):
-            servo(x)
-            time.sleep(.1)
-            scan1 = us_dist(15)
-            time.sleep(.1)
-            # double check the distance
-            scan2 = us_dist(15)
-            time.sleep(.1)
-            # if I found a different distance the second time....
-            if abs(scan1 - scan2) > 2:
-                scan3 = us_dist(15)
-                time.sleep(.1)
-                # take another scan and average the three together
-                scan1 = (scan1 + scan2 + scan3) / 3
-            self.scan[x] = scan1
-            print("Degree: " + str(x) + ", distance: " + str(scan1))
-            if scan1 < self.STOP_DIST:
-                print("Doesn't look clear to me")
-                return False
-        return True
-
-    #DECIDE WHICH WAY TO TURN
-    def choosePath(self) -> str:
-        print('Considering options...')
-        if self.isClear():
-            return "fwd"
-        else:
-            self.wideScan()
-        avgRight = 0
-        avgLeft = 0
-        for x in range(self.MIDPOINT-60, self.MIDPOINT):
-            if self.scan[x]:
-                avgRight += self.scan[x]
-        avgRight /= 60
-        print('The average dist on the right is '+str(avgRight)+'cm')
-        for x in range(self.MIDPOINT, self.MIDPOINT+60):
-            if self.scan[x]:
-                avgLeft += self.scan[x]
-        avgLeft /= 60
-        print('The average dist on the left is ' + str(avgLeft) + 'cm')
-        if avgRight > avgLeft:
-            return "right"
-        else:
-            return "left"
+        print "I'm a little robot car. beep beep."
+        self.checkDist()
 
     def stop(self):
-        print('All stop.')
-        for x in range(3):
+        self.status["ismoving"] = False
+        print "Whoaaaa there."
+        for x in range(3):   #we send three so one of them will be heard by the MCU
             stop()
-        servo(self.MIDPOINT)
-        time.sleep(0.05)
-        disable_servo()
 
-    def calibrate(self):
-        print("Calibrating...")
-        servo(self.MIDPOINT)
-        response = input("Am I looking straight ahead? (y/n): ")
-        if response == 'n':
-            while True:
-                response = input("Turn right, left, or am I done? (r/l/d): ")
-                if response == "r":
-                    self.MIDPOINT += 1
-                    print("Midpoint: " + str(self.MIDPOINT))
-                    servo(self.MIDPOINT)
-                    time.sleep(.01)
-                elif response == "l":
-                    self.MIDPOINT -= 1
-                    print("Midpoint: " + str(self.MIDPOINT))
-                    servo(self.MIDPOINT)
-                    time.sleep(.01)
-                else:
-                    print("Midpoint now saved to: " + str(self.MIDPOINT))
-                    break
+    def fwd(self):
+        self.status["ismoving"] = True
+        print "Let's get going!"
+        for x in range(3):
+            fwd()
+
+    def bwd(self):
+        self.status["ismoving"] = True
+        print "Back, back it up!"
+        for x in range(3):
+            bwd()
+
+    def rightrot(self):
+        self.status["ismoving"] = True
+        print "Rotating right!"
+        for x in range(3):
+            right_rot()
+
+    def leftrot(self):
+        self.status["ismoving"] = True
+        print "Rotating left!"
+        for x in range(3):
+            left_rot()
+
+    #Check if conditions are safe to continue operating and returns true/false
+    def keepGoing(self):
+        self.checkDist()
+        if self.status['dist'] < STOP_DIST:
+            print "Obstacle detected. Stopping."
+            return False
+        elif volt() > 14 or volt() < 6:
+            print "Unsafe voltage detected: " + str(volt())
+            return False
+        else:
+            return True
+
+    def checkDist(self):
+        servo(90)
+        self.status['dist'] = us_dist(15)
+        print "I see something " + str(self.status['dist']) + "mm away."
+
+    #######
+    #######  ADVANCED METHODS
+    #######
 
 
-########################
-#### STATIC FUNCTIONS
+    def safeDrive(self):
+        print "Let's roll."
+        self.fwd()
+        while self.keepGoing():
+            time.sleep(.05)
+        self.stop()
 
-def error():
-    print('Error in input')
+    def servoSweep(self):
+        print "Scanning..."
+        for ang in range(20, 160, self.STEPPER):
+            servo(ang)
+            time.sleep(.1)
+            self.vision[ang] = us_dist(15)
+
+    def dance(self):
+        print "I just want to DANCE!"
+        '''
+        if self.keepGoing():
+            self.circleRight()
+            self.circleLeft()
+            self.shuffle()
+            self.servoShake()
+            self.blink()
+        '''
+
+    #checks to see if there is any 20 degree opening at all
+    def findaPath(self):
+        counter = 0
+        for ang in range(20, 160, self.STEPPER):
+            if self.vision[ang] > STOP_DIST:
+                counter += 1
+            else:
+                counter = 0
+            if counter >= (20/self.STEPPER):
+                print "We've found a path at angle " + str(ang)
+                return True   #returns when you find the first available path
+        return False   #no paths were found. We're going to have to turn around
+
+    def turnAround(self):
+        print "Attempting to turn around"
+        self.rightrot()
+        time.sleep(.5)
+        self.stop()
+
+    #returns the smartest angle we should turn to when facing an obstacle
+    #it will check our instance variable self.status['wentleft']
+    def findAngle(self):
+        counter = 0
+        option = [0] * 12 #we're going to fill this array with the angles of open paths
+        optindex = 0  #this starts at 0 and will increase every time we find an option
+        for ang in range(20, 160, self.STEPPER):
+            if self.vision[ang] > STOP_DIST:
+                counter += 1
+            else:
+                counter = 0
+            if counter >= (20/self.STEPPER):
+                print "We've found an option at angle " + str(ang - 10)
+                option[optindex] = (ang - 10)
+                counter = 0
+                optindex += 1
+        if self.status['wentleft']:
+            print "I went left last time. Seeing if I have a right turn option"
+            for choice in option:
+                if choice < 90:
+                    self.status['wentleft'] = False #switch this for next time
+                    return choice
+        else:
+            print "Went right last time. Seeing if there's a left turn option"
+            for choice in option:
+                if choice > 90:
+                    self.status['wentleft'] = True
+                    return choice
+        print "I couldn't turn the direction I wanted. Goint to use angle " + str(option[0])
+        if option[0] != 0: #let's make sure there's something in there
+            return option[optindex]
+        print "If I print this line I couldn't find an angle. How'd I get this far?"
+        return 90
 
 
-def quit():
-    raise SystemExit
+    #takes an angle as its parameter an attempts to turn that way
+    def turnTo(self, angle):
+        turntime = .2   #MAY NEED ADJUSTMENT
+        BIGTURN = .5    #MAY NEED ADJUSTMENT
+        if angle < 50 or angle > 120:
+            print "We're going to need a big turn"
+            turntime = BIGTURN
+        if angle < 90:
+            print "Turning right"
+            self.rightrot()
+            time.sleep(turntime)
+            self.stop()
+        else:
+            print "Turning left"
+            self.leftrot()
+            time.sleep(turntime)
+            self.stop()
 
 
-p = Pigo()
+#######
+#######  MAIN APP STARTS HERE
+#######
+tina = Pigo()
+
+while True:
+    if tina.keepGoing():
+        tina.safeDrive()
+    if tina.findaPath():
+        tina.turnTo(tina.findAngle())
+    else:
+        tina.turnAround()
+
+tina.stop()
