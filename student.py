@@ -101,6 +101,27 @@ class GoPiggy(pigo.Pigo):
             elif answer == "left":
                 self.encL(6)
 
+#creating the cruise method
+    def cruise(self):
+        set_left_speed(120)
+        set_right_speed(120)
+        print("Is it safe for me to go?")
+        clear= self.isClear()
+        print(clear)
+        while True:
+            if clear:
+                print("Let's go boiii")
+                fwd()
+            if not self.isClear():
+                print ("Bruh don't go")
+                self.stop()
+                answer = self.choosePath()
+                if answer == "left":
+                    self.encL(6)
+                elif answer == "right"
+                    self.encR(6)
+
+
     def testDrive(self):
         print ("Here I go")
         fwd()
