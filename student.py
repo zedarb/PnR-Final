@@ -3,6 +3,8 @@ import time
 import random
 from gopigo import *
 
+#TODO: FIX robots option to continue in another direction post obstacle
+
 '''
 This class INHERITS your teacher's Pigo class. That means Mr. A can continue to
 improve the parent class and it won't overwrite your work.
