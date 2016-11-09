@@ -120,15 +120,7 @@ class GoPiggy(pigo.Pigo):
                     self.encL(6)
                 elif answer == "right":
                     self.encR(6)
-#checking surroundings while driving to speed up proces
-     def safeDrive(self):
-        print "Let's roll."
-        self.fwd()
-        while self.keepGoing():
-            time.sleep(.05)
-        self.stop()
-
-
+#checking surroundings while driving to speed up process
     def testDrive(self):
         print ("Here I go")
         fwd()
