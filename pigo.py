@@ -26,31 +26,31 @@ class Pigo:
 
     def stop(self):
         self.status["ismoving"] = False
-        print "Whoaaaa there."
+        print ("Whoaaaa there.")
         for x in range(3):   #we send three so one of them will be heard by the MCU
             stop()
 
     def fwd(self):
         self.status["ismoving"] = True
-        print "Let's get going!"
+        print ("Let's get going!")
         for x in range(3):
             fwd()
 
     def bwd(self):
         self.status["ismoving"] = True
-        print "Back, back it up!"
+        print ("Back, back it up!")
         for x in range(3):
             bwd()
 
     def rightrot(self):
         self.status["ismoving"] = True
-        print "Rotating right!"
+        print ("Rotating right!")
         for x in range(3):
             right_rot()
 
     def leftrot(self):
         self.status["ismoving"] = True
-        print "Rotating left!"
+        print ("Rotating left!")
         for x in range(3):
             left_rot()
 
@@ -58,10 +58,10 @@ class Pigo:
     def keepGoing(self):
         self.checkDist()
         if self.status['dist'] < STOP_DIST:
-            print "Obstacle detected. Stopping."
+            print ("Obstacle detected. Stopping.")
             return False
         elif volt() > 14 or volt() < 6:
-            print "Unsafe voltage detected: " + str(volt())
+            print ("Unsafe voltage detected: " + str(volt()))
             return False
         else:
             return True
@@ -69,7 +69,7 @@ class Pigo:
     def checkDist(self):
         servo(90)
         self.status['dist'] = us_dist(15)
-        print "I see something " + str(self.status['dist']) + "mm away."
+        print ("I see something " + str(self.status['dist']) + "mm away.")
 
     #######
     #######  ADVANCED METHODS
@@ -77,21 +77,21 @@ class Pigo:
 
 
     def safeDrive(self):
-        print "Let's roll."
+        print ("Let's roll.")
         self.fwd()
         while self.keepGoing():
             time.sleep(.05)
         self.stop()
 
     def servoSweep(self):
-        print "Scanning..."
+        print ("Scanning...")
         for ang in range(20, 160, self.STEPPER):
             servo(ang)
             time.sleep(.1)
             self.vision[ang] = us_dist(15)
 
     def dance(self):
-        print "I just want to DANCE!"
+        print ("I just want to DANCE!")
         '''
         if self.keepGoing():
             self.circleRight()
@@ -110,12 +110,12 @@ class Pigo:
             else:
                 counter = 0
             if counter >= (20/self.STEPPER):
-                print "We've found a path at angle " + str(ang)
+                print ("We've found a path at angle " + str(ang))
                 return True   #returns when you find the first available path
         return False   #no paths were found. We're going to have to turn around
 
     def turnAround(self):
-        print "Attempting to turn around"
+        print ("Attempting to turn around")
         self.rightrot()
         time.sleep(.5)
         self.stop()
@@ -132,26 +132,26 @@ class Pigo:
             else:
                 counter = 0
             if counter >= (20/self.STEPPER):
-                print "We've found an option at angle " + str(ang - 10)
+                print ("We've found an option at angle " + str(ang - 10))
                 option[optindex] = (ang - 10)
                 counter = 0
                 optindex += 1
         if self.status['wentleft']:
-            print "I went left last time. Seeing if I have a right turn option"
+            print ("I went left last time. Seeing if I have a right turn option")
             for choice in option:
                 if choice < 90:
                     self.status['wentleft'] = False #switch this for next time
                     return choice
         else:
-            print "Went right last time. Seeing if there's a left turn option"
+            print ("Went right last time. Seeing if there's a left turn option")
             for choice in option:
                 if choice > 90:
                     self.status['wentleft'] = True
                     return choice
-        print "I couldn't turn the direction I wanted. Goint to use angle " + str(option[0])
+        print ("I couldn't turn the direction I wanted. Goint to use angle " + str(option[0]))
         if option[0] != 0: #let's make sure there's something in there
             return option[optindex]
-        print "If I print this line I couldn't find an angle. How'd I get this far?"
+        print ("If I print this line I couldn't find an angle. How'd I get this far?")
         return 90
 
 
@@ -160,15 +160,15 @@ class Pigo:
         turntime = .2   #MAY NEED ADJUSTMENT
         BIGTURN = .5    #MAY NEED ADJUSTMENT
         if angle < 50 or angle > 120:
-            print "We're going to need a big turn"
+            print ("We're going to need a big turn")
             turntime = BIGTURN
         if angle < 90:
-            print "Turning right"
+            print ("Turning right")
             self.rightrot()
             time.sleep(turntime)
             self.stop()
         else:
-            print "Turning left"
+            print ("Turning left")
             self.leftrot()
             time.sleep(turntime)
             self.stop()
