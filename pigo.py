@@ -21,7 +21,7 @@ class Pigo:
 
     # this method means we're working with an instantiated object
     def __init__(self):
-        print "I'm a little robot car. beep beep."
+        print("I'm a little robot car. beep beep.")
         self.checkDist()
 
     def stop(self):
