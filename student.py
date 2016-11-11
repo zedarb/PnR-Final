@@ -96,11 +96,11 @@ class GoPiggy(pigo.Pigo):
             #go forward, but only a little
             self.encF(10)
             #if path is not clear move left or right
-                answer = self. choosePath()
-                if answer == "right":
-                    self.encR(6)
-                elif answer == "left":
-                    self.encL(6)
+            answer = self. choosePath()
+            if answer == "right":
+                self.encR(6)
+            elif answer == "left":
+                self.encL(6)
 
 #creating the cruise method
     def cruise(self):
