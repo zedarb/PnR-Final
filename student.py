@@ -90,10 +90,9 @@ class GoPiggy(pigo.Pigo):
         print("Piggy nav")
         ##### WRITE YOUR FINAL PROJECT HERE
         #TODO: if while loop fails check for other paths
-
         # loop to check the path is clear
         while True:
-            while self.isClear():
+            self.isClear():
             #go forward, but only a little
                 self.encF(10)
             #if path is not clear move left or right
