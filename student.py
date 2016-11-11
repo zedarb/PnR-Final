@@ -92,11 +92,9 @@ class GoPiggy(pigo.Pigo):
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
-            self.isClear()
-            #go forward, but only a little
-            self.encF(10)
+            self.cruise()
             #if path is not clear move left or right
-            answer = self. choosePath()
+            answer = self.choosePath()
             if answer == "right":
                 self.encR(6)
             elif answer == "left":
@@ -106,6 +104,18 @@ class GoPiggy(pigo.Pigo):
     def cruise(self):
         set_left_speed(120)
         set_right_speed(120)
+        servo(self.MIDPOINT)
+        time.sleep(.05)
+        if self.isClear():
+            fwd()
+            while True:
+                if us_dist(15) < self.STOP_DIST:
+                    break
+                time.sleep(.1)
+        self.stop()
+
+
+
         print("Is it safe for me to go?")
         clear= self.isClear()
         print(clear)
