@@ -92,7 +92,7 @@ class GoPiggy(pigo.Pigo):
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
-            self.isClear():
+            self.isClear()
             #go forward, but only a little
                 self.encF(10)
             #if path is not clear move left or right
