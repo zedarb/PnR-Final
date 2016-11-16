@@ -89,7 +89,7 @@ class Pigo(object):
 
     ##DANCING IS FOR THE CHILD CLASS
     def dance(self):
-        print('Parent dance is lame.')
+        print('Parent dance is lame!')
         for x in range(self.MIDPOINT - 20, self.MIDPOINT + 20, 5):
             servo(x)
             time.sleep(.1)
