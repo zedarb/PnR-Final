@@ -19,6 +19,10 @@ class GoPiggy(pigo.Pigo):
     RIGHT_SPEED = 200
     LEFT_SPEED = 200
 
+    turn_track = 0.0
+    TIME_PER_DEGREE = 0.012
+    TURN_MODIFIER = .4
+
 
     # CONSTRUCTOR
     def __init__(self):
@@ -85,20 +89,62 @@ class GoPiggy(pigo.Pigo):
     def status(self):
         print('My power is at  ' + str(volt())+ '  volts')
 
-    # AUTONOMOUS DRIVING
+
+
+## NEW TURN METHODS because encR and encL aren't cutting it
+    #takes number of degrees and turns accordingly
+    def turnR(self, deg):
+        # adjust tracker to see how many degrees away the turn is
+        self.turn_track += deg
+        print ("The exit is " + str.(self.turn_track) = "degrees away!")
+        # set speed so we can have a controlled turn
+        self.setSpeed(self.LEFT_SPEED * self.TURN_MODIFIER, self.RIGHT_SPEED * self.TURN_MODIFIER)
+        # actually turn
+        right_rot()
+        # by using the data from our turn experiment calculate how long we need to turn for
+        time.sleep(deg * self.TIME_PER_DEGREE)
+        self.stop
+        # return to normal speed
+        self.setSpeed(self.LEFT_SPEED, self.RIGHT_SPEED)
+
+    def turnL(self, tt):
+        #adjust tracker to see how many degrees away the turn is
+        self.turn_track -= deg
+        print ("The exit is " + str.(self.turn_track) = "degrees away!")
+        #set speed so we can have a controlled turn
+        self.setSpeed(self.LEFT_SPEED * self.TURN_MODIFIER, self.RIGHT_SPEED * self.TURN_MODIFIER)
+        #actually turn
+        left_rot()
+        #by using the data from our turn experiment calculate how long we need to turn for
+        time.sleep(deg * self.TIME_PER_DEGREE)
+        self.stop
+        #return to normal speed
+        self.setSpeed(self.LEFT_SPEED, self.RIGHT_SPEED)
+
+    def setSpeed(self, left, right):
+        print("left speed currently set to " + str(left))
+        print("right speed currently set to " + str(right))
+        set_left_speed(left)
+        set_right_speed(right)
+        time.sleep(.05)
+
+
+# AUTONOMOUS DRIVING
     def nav(self):
         print("Piggy nav")
         ##### WRITE YOUR FINAL PROJECT HERE
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
-            self.cruise()
-            #if path is not clear move left or right
-            answer = self.choosePath()
-            if answer == "right":
-                self.encR(6)
-            elif answer == "left":
-                self.encL(6)
+            choice = self.choosePath()
+            if choice == "fwd":
+                self.encF(18)
+                while self.isClear():
+                    self.encF(18)
+            elif choice == "right"
+                self.turnR(self, deg)
+            elif choice == "left"
+                self.turnL(self, deg)
 
 #creating the cruise method
     def cruise(self):
