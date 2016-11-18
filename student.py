@@ -142,9 +142,9 @@ class GoPiggy(pigo.Pigo):
                 self.encF(18)
                 while self.isClear():
                     self.encF(18)
-            elif choice == "right"
+            elif choice == "right":
                 self.encR(5)
-            elif choice == "left"
+            elif choice == "left":
                 self.enc(L)
 
 #creating the cruise method
