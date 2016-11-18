@@ -136,7 +136,7 @@ class GoPiggy(pigo.Pigo):
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
-            self.cruise(0)
+            self.cruise()
             choice = self.choosePath()
             if choice == "fwd":
                 self.encF(18)
