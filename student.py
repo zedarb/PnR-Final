@@ -136,15 +136,16 @@ class GoPiggy(pigo.Pigo):
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
+            self.cruise(0)
             choice = self.choosePath()
             if choice == "fwd":
                 self.encF(18)
                 while self.isClear():
                     self.encF(18)
             elif choice == "right"
-                self.turnR(self, deg)
+                self.encR(5)
             elif choice == "left"
-                self.turnL(self, deg)
+                self.enc(L)
 
 #creating the cruise method
     def cruise(self):
