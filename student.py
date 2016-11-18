@@ -124,8 +124,8 @@ class GoPiggy(pigo.Pigo):
     def setSpeed(self, left, right):
         print("left speed currently set to " + str(left))
         print("right speed currently set to " + str(right))
-        set_left_speed(left)
-        set_right_speed(right)
+        set_left_speed(int(left))
+        set_right_speed(int(right))
         time.sleep(.05)
 
 
