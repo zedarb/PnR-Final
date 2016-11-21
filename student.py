@@ -130,12 +130,15 @@ class GoPiggy(pigo.Pigo):
 
 
 # AUTONOMOUS DRIVING
+    #central logic loop of navigation
     def nav(self):
         print("Piggy nav")
+        #main app loop
         ##### WRITE YOUR FINAL PROJECT HERE
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
+            #TODO: replace choosePath with a method that's smarter
             self.cruise()
             choice = self.choosePath()
             if choice == "fwd":
@@ -143,6 +146,7 @@ class GoPiggy(pigo.Pigo):
                 while self.isClear():
                     self.encF(18)
             elif choice == "right":
+                #TODO: replace 5 with a variable presenting a smarter option
                 self.encR(5)
             elif choice == "left":
                 self.enc(L)
