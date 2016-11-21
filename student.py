@@ -143,6 +143,7 @@ class GoPiggy(pigo.Pigo):
             # TODO: replace choosePath with a method that's smarter
             choice = self.choosePath()
             elif choice == "right":
+            # TODO: replace 5 with a variable presenting a smarter option
                 self.turnR(45)
             elif choice == "left":
                 self.turnL(45)
