@@ -91,7 +91,7 @@ class GoPiggy(pigo.Pigo):
 
 
 
-## NEW TURN METHODS because encR and encL aren't cutting it
+    ## NEW TURN METHODS because encR and encL aren't cutting it
     #takes number of degrees and turns accordingly
     def turnR(self, deg):
         # adjust tracker to see how many degrees away the turn is
@@ -129,7 +129,7 @@ class GoPiggy(pigo.Pigo):
         time.sleep(.05)
 
 
-# AUTONOMOUS DRIVING
+    # AUTONOMOUS DRIVING
     #central logic loop of navigation
     def nav(self):
         print("Piggy nav")
@@ -138,51 +138,32 @@ class GoPiggy(pigo.Pigo):
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
-            #TODO: replace choosePath with a method that's smarter
+            #try to go forward
             self.cruise()
+            # TODO: replace choosePath with a method that's smarter
             choice = self.choosePath()
-            if choice == "fwd":
-                self.encF(18)
-                while self.isClear():
-                    self.encF(18)
             elif choice == "right":
                 #TODO: replace 5 with a variable presenting a smarter option
-                self.encR(5)
+                self.turnR(45)
             elif choice == "left":
-                self.enc(L)
+                self.turnL(45)
 
-#creating the cruise method
+    #creating the cruise method
     def cruise(self):
-        set_left_speed(120)
-        set_right_speed(120)
-        servo(self.MIDPOINT)
-        time.sleep(.05)
+        self.setSpeed(120,120)
         if self.isClear():
+            servo(self.MIDPOINT)
+            time.sleep(.05)
             fwd()
             while True:
                 if us_dist(15) < self.STOP_DIST:
                     break
-                time.sleep(.1)
+                time.sleep(.05)
         self.stop()
 
 
 
-        print("Is it safe for me to go?")
-        clear= self.isClear()
-        print(clear)
-        while True:
-            if clear:
-                print("Let's go boiii")
-                fwd()
-            if not self.isClear():
-                print ("Bruh don't go")
-                self.stop()
-                answer = self.choosePath()
-                if answer == "left":
-                    self.encL(6)
-                elif answer == "right":
-                    self.encR(6)
-#checking surroundings while driving to speed up process
+    #checking surroundings while driving to speed up process
     def testDrive(self):
         print ("Here I go")
         fwd()
