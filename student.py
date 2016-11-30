@@ -19,8 +19,11 @@ class GoPiggy(pigo.Pigo):
     RIGHT_SPEED = 200
     LEFT_SPEED = 200
 
+    # we wanted a better way to turn
     turn_track = 0.0
+    #we found time for a 90 degree turn and adjusted it per degree
     TIME_PER_DEGREE = 0.012
+    #robot has to go at speed 80 in order to run accurately
     TURN_MODIFIER = .4
 
 
@@ -107,7 +110,7 @@ class GoPiggy(pigo.Pigo):
         # return to normal speed
         self.setSpeed(self.LEFT_SPEED, self.RIGHT_SPEED)
 
-    def turnL(self, tt):
+    def turnL(self, deg):
         #adjust tracker to see how many degrees away the turn is
         self.turn_track -= deg
         print ("The exit is " + str(self.turn_track) + "degrees away!")
