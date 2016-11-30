@@ -34,7 +34,7 @@ class GoPiggy(pigo.Pigo):
         while True:
             self.stop()
             self.handler()
-
+        # let's use an event-driven model, make a handler of sorts to listen for "events"
     ##### HANDLE IT
     def handler(self):
         ## This is a DICTIONARY, it's a list with custom index values
