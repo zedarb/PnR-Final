@@ -151,6 +151,7 @@ class GoPiggy(pigo.Pigo):
             elif choice == "left":
                 self.turnL(45)
 
+
     #creating the cruise method
     def cruise(self):
         self.setSpeed(120,120)
@@ -175,8 +176,11 @@ class GoPiggy(pigo.Pigo):
                 break
             time.sleep(.05)
         self.stop()
-    def chooseBetter(selfself):
-        se
+
+    def testTurn(selfself):
+        self.turnR(50)
+        self.turnL(60)
+        input('Accurate reporting?')
 
 ####################################################
 ############### STATIC FUNCTIONS
