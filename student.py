@@ -141,15 +141,72 @@ class GoPiggy(pigo.Pigo):
         #TODO: if while loop fails check for other paths
         # loop to check the path is clear
         while True:
-            #try to go forward
-            self.cruise()
-            # TODO: replace choosePath with a method that's smarter
-            choice = self.choosePath()
-            if choice == "right":
+            #CRUISE FORWARD
+            if self.isClear():
+                #if clear proceed forward
+                self.cruise()
+           #if I had to stop, Pick a better path
+            turn_target = self.kenny()
+
+            if turn_target < 0:
+                self.turnR(abs(turn_target))
+            else:
+                self.turnL(turn_target)
+
+
+            ##if choice == "right":
             # TODO: replace 5 with a variable presenting a smarter option
                 self.turnR(45)
-            elif choice == "left":
+                #self.turnR(turn_target)
+            ###elif choice == "left":
                 self.turnL(45)
+                # self.turnR(turn_target)
+            ###else:
+                print("no path ahead")
+                break
+    #replacement turn method
+    def kenny(self):
+        #use built in wide scan
+        self.wideScan()
+        #count will keep track of contiguous positive readings
+        count = 0
+        #list of all the open paths we detect
+        option = [0]
+        SAFETY_BUFFER = 10
+        INC = 2
+
+        #######################################################
+        ### Build the options
+        #######################################################
+        for x in range(self.MIDPOINT - 60, self.MIDPOINT + 60):
+            if self.scan[x]:
+                #add number if you want extra safety buffer
+                if self.scan[x] > (self.STOP_DIST + SAFETY_BUFFER)
+                    count += 1
+                # if this reading isn't safe..
+                else:
+                    #aww darn I have to reset count, this path won't work
+                    count = 0
+                if count == (20/INC)
+                    # SUCCESS I've found enough positive readings in a row to count
+                    print 'Found an option from' + str(x-20) + 'to' + str(x)
+                    count = 0
+                    option.apped(x-10)
+        ###################################################
+        ## PICK FROM OPTIONS
+        ##########################################
+        bestoption = 90
+        for x in option:
+            #skip our filler option
+            if not x.__index__() == 0
+                print("Choice # " + str(x.__index__()) + " is @" + str(x) + "degrees")
+                ideal = self.turn_track + self.MIDPOINT
+                print("My ideal choice would be " + (self.turn_track -(x - self.MIDPOINT)) )
+            if bestoption > abs(ideal - x):
+                 bestoption = abs(ideal - x)
+                 winner = x - self.MIDPOINT
+        return winner
+
 
 
     #creating the cruise method
