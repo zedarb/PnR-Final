@@ -162,7 +162,7 @@ class GoPiggy(pigo.Pigo):
                 #if clear proceed forward
                 self.cruise()
                 # for extra safety precautions
-                self.backUp()
+                #self.backUp()
            #if I had to stop, Pick a better path
             turn_target = self.kenny()
             # staying consistent with right being positive and left being negative
