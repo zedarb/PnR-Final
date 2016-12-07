@@ -26,7 +26,7 @@ class GoPiggy(pigo.Pigo):
     #YOU DECIDE: How long does it take your robot to turn 1 degree?
     TIME_PER_DEGREE = 0.029
     #YOU DECIDE: What speed modifier should we use when turning?
-    TURN_MODIFIER = .6
+    TURN_MODIFIER = .4
     #This one isn't capitalized because it changes during runtime, the others don't
     turn_track = 0
     #Our scan list! The index will be the degree and it will store distance
@@ -135,6 +135,9 @@ class GoPiggy(pigo.Pigo):
         # this is the loop part of the "main logic loop"
         while True:
             # if it's clear in front of me...
+            if self.isClear():
+                # drive until something's in front of me. Good idea? you decide.
+                self.cruise()
             if self.isClear():
                 # drive until something's in front of me. Good idea? you decide.
                 self.cruise()
