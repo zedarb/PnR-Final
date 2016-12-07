@@ -17,7 +17,7 @@ class GoPiggy(pigo.Pigo):
 
     # Our servo turns the sensor. What angle of the servo( ) method sets it straight?
     MIDPOINT = 88
-    #How close can an object get (cm) before we have to stop?
+    # How close can an object get (cm) before we have to stop?
     STOP_DIST = 25
     # What right motor power helps straighten your fwd()?
     RIGHT_SPEED = 200
@@ -26,9 +26,9 @@ class GoPiggy(pigo.Pigo):
     # we wanted a better way to turn
     # lowercase because it changes overtime
     turn_track = 0
-    #we found time for a 90 degree turn and adjusted it per degree
+    # we found time for a 90 degree turn and adjusted it per degree
     TIME_PER_DEGREE = 0.01
-    #robot has to go at speed 80 in order to run accurately
+    # robot has to go at speed 80 in order to run accurately
     TURN_MODIFIER = .4
     # list of all prior scans
     scan = [None] * 180
@@ -149,7 +149,7 @@ class GoPiggy(pigo.Pigo):
 
     #########################
     # AUTONOMOUS DRIVING
-    #central logic loop of navigation
+    # central logic loop of navigation
     #########################
 
     def nav(self):
@@ -160,11 +160,11 @@ class GoPiggy(pigo.Pigo):
         while True:
             # check to see if clear
             if self.isClear():
-                #if clear proceed forward
+                # if clear proceed forward
                 self.cruise()
                 # for extra safety precautions
             self.backUp()
-            #if I had to stop, Pick a better path
+            # if I had to stop, Pick a better path
             turn_target = self.kenny()
             # staying consistent with right being positive and left being negative
             if turn_target > 0:
@@ -175,13 +175,13 @@ class GoPiggy(pigo.Pigo):
             #####################################
             # Comment out old code
             #####################################
-            ##if choice == "right":
-                #self.turnR(45)
-                #self.turnR(turn_target)
-            ###elif choice == "left":
-                ###self.turnL(45)
+            ## if choice == "right":
+                # self.turnR(45)
                 # self.turnR(turn_target)
-            ###else:
+            ### elif choice == "left":
+                ### self.turnL(45)
+                # self.turnR(turn_target)
+            ### else:
                 #print("no path ahead")
                # break
                 # creating the cruise method
@@ -210,22 +210,22 @@ class GoPiggy(pigo.Pigo):
         # stop if the sensor loop broke
         self.stop()
 
-    #replacement turn method
+    # replacement turn method
     def kenny(self):
-        #Activate our scanner!
+        # Activate our scanner!
         self.wideScan()
         # count will keep track of contigeous positive readings
         count = 0
         # list of all the open paths we detect
         option = [0]
-        #YOU DECIDE: What do we add to STOP_DIST when looking for a path fwd?
+        # YOU DECIDE: What do we add to STOP_DIST when looking for a path fwd?
         SAFETY_BUFFER = 30
-        #YOU DECIDE: what increment do you have your wideScan set to?
+        # YOU DECIDE: what increment do you have your wideScan set to?
         INC = 3
 
         ###########################
         ######### BUILD THE OPTIONS
-        #loop from the 60 deg right of our middle to 60 deg left of our middle
+        # loop from the 60 deg right of our middle to 60 deg left of our middle
         for x in range(self.MIDPOINT - 60, self.MIDPOINT + 60):
             # ignore all blank spots in the list
             if self.scan[x]:
@@ -236,21 +236,21 @@ class GoPiggy(pigo.Pigo):
                 else:
                     # aww nuts, I have to reset the count, this path won't work
                     count = 0
-                #YOU DECIDE: Is 16 degrees the right size to consider as a safe window?
+                # YOU DECIDE: Is 16 degrees the right size to consider as a safe window?
                 if count > (16 / INC) - 1:
                     # SUCCESS! I've found enough positive readings in a row
                     print("---FOUND OPTION: from " + str(x - 16) + " to " + str(x))
-                    #set the counter up again for next time
+                    # set the counter up again for next time
                     count = 0
-                    #add this option to the list
+                    # add this option to the list
                     option.append(x - 8)
 
         ####################################
         ############## PICK FROM THE OPTIONS - experimental
 
-        #The biggest angle away from our midpoint we could possibly see is 90
+        # The biggest angle away from our midpoint we could possibly see is 90
         bestoption = 90
-        #the turn it would take to get us aimed back toward the exit - experimental
+        # the turn it would take to get us aimed back toward the exit - experimental
         ideal = -self.turn_track
         print("\nTHINKING. Ideal turn: " + str(ideal) + " degrees\n")
         # x will iterate through all the angles of our path options
@@ -273,9 +273,9 @@ class GoPiggy(pigo.Pigo):
 
     # scan method
     def wideScan(self):
-        #dump all previous values
+        # dump all previous values
         self.flushScan()
-        #YOU DECIDE: What increment should we use when scanning?
+        # YOU DECIDE: What increment should we use when scanning?
         for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +3):
             # move the sensor that's mounted to our servo
             servo(x)
@@ -298,7 +298,7 @@ class GoPiggy(pigo.Pigo):
 
     # isClear method that shows the thinking behind the robot on whether or not he camn move forward
     def isClear(self) -> bool:
-        #YOU DECIDE: What range from our midpoint should we check?
+        # YOU DECIDE: What range from our midpoint should we check?
         for x in range((self.MIDPOINT - 20), (self.MIDPOINT + 20), 5):
             # move the sensor
             servo(x)
