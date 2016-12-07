@@ -18,14 +18,14 @@ class GoPiggy(pigo.Pigo):
     # Our servo turns the sensor. What angle of the servo( ) method sets it straight?
     MIDPOINT = 88
     #How close can an object get (cm) before we have to stop?
-    STOP_DIST = 20
+    STOP_DIST = 25
     # What right motor power helps straighten your fwd()?
     RIGHT_SPEED = 200
     #  What left motor power helps straighten your fwd()?
-    LEFT_SPEED = 200
+    LEFT_SPEED = 190
     # we wanted a better way to turn
     # lowercase because it changes overtime
-    turn_track = 0.0
+    turn_track = 0
     #we found time for a 90 degree turn and adjusted it per degree
     TIME_PER_DEGREE = 0.012
     #robot has to go at speed 80 in order to run accurately
@@ -162,11 +162,11 @@ class GoPiggy(pigo.Pigo):
                 #if clear proceed forward
                 self.cruise()
                 # for extra safety precautions
-                #self.backUp()
-           #if I had to stop, Pick a better path
+            self.backUp()
+            #if I had to stop, Pick a better path
             turn_target = self.kenny()
             # staying consistent with right being positive and left being negative
-            if turn_target < 0:
+            if turn_target > 0:
                 self.turnR(turn_target)
             else:
                 self.turnL(abs(turn_target))
@@ -184,6 +184,14 @@ class GoPiggy(pigo.Pigo):
                 #print("no path ahead")
                # break
                 # creating the cruise method
+
+    def backUp(self):
+        if us_dist(15) < 15:
+            print("Too close. Backing up for half a second")
+            bwd()
+            time.sleep(.5)
+            self.stop()
+
 
     def cruise(self):
         servo(self.MIDPOINT)
