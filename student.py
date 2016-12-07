@@ -27,7 +27,7 @@ class GoPiggy(pigo.Pigo):
     # lowercase because it changes overtime
     turn_track = 0
     #we found time for a 90 degree turn and adjusted it per degree
-    TIME_PER_DEGREE = 0.012
+    TIME_PER_DEGREE = 0.01
     #robot has to go at speed 80 in order to run accurately
     TURN_MODIFIER = .4
     # list of all prior scans
@@ -141,8 +141,9 @@ class GoPiggy(pigo.Pigo):
         self.setSpeed(self.LEFT_SPEED, self.RIGHT_SPEED)
 
     def setSpeed(self, left, right):
-        print("left speed currently set to " + str(left) + "//" + "right speed currently set to " + str(right) )
+        print("\nleft speed currently set to " + str(left) + "//" + "right speed currently set to " + str(right))
         set_left_speed(int(left))
+        time.sleep(.05)
         set_right_speed(int(right))
         time.sleep(.05)
 
@@ -220,7 +221,7 @@ class GoPiggy(pigo.Pigo):
         #YOU DECIDE: What do we add to STOP_DIST when looking for a path fwd?
         SAFETY_BUFFER = 30
         #YOU DECIDE: what increment do you have your wideScan set to?
-        INC = 2
+        INC = 3
 
         ###########################
         ######### BUILD THE OPTIONS
@@ -265,9 +266,9 @@ class GoPiggy(pigo.Pigo):
                     # store this turn as the best option
                     bestoption = turn
         if bestoption > 0:
-            print("\nABOUT TO TURN RIGHT BY: " + str(bestoption) + " degrees")
+            input("\nABOUT TO TURN RIGHT BY: " + str(bestoption) + " degrees")
         else:
-            print("\nABOUT TO TURN LEFT BY: " + str(abs(bestoption)) + " degrees")
+            input("\nABOUT TO TURN LEFT BY: " + str(abs(bestoption)) + " degrees")
         return bestoption
 
     # scan method
@@ -275,21 +276,21 @@ class GoPiggy(pigo.Pigo):
         #dump all previous values
         self.flushScan()
         #YOU DECIDE: What increment should we use when scanning?
-        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
+        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +3):
             # move the sensor that's mounted to our servo
             servo(x)
-            #give some time for the servo to move
+            # give some time for the servo to move
             time.sleep(.1)
-            #take our first measurement
+            # take our first measurement
             scan1 = us_dist(15)
             time.sleep(.1)
-            #double check the distance
+            # double check the distance
             scan2 = us_dist(15)
-            #if I found a different distance the second time....
+            # if I found a different distance the second time....
             if abs(scan1 - scan2) > 2:
                 scan3 = us_dist(15)
                 time.sleep(.1)
-                #take another scan and average? the three together - you decide
+                # take another scan and average? the three together - you decide
                 scan1 = (scan1+scan2+scan3)/3
             self.scan[x] = scan1
             print("Degree: "+str(x)+", distance: "+str(scan1))
@@ -298,37 +299,38 @@ class GoPiggy(pigo.Pigo):
     # isClear method that shows the thinking behind the robot on whether or not he camn move forward
     def isClear(self) -> bool:
         #YOU DECIDE: What range from our midpoint should we check?
-        for x in range((self.MIDPOINT - 20), (self.MIDPOINT + 20), 4):
-            #move the sensor
+        for x in range((self.MIDPOINT - 20), (self.MIDPOINT + 20), 5):
+            # move the sensor
             servo(x)
-            #Give a little time to turn the servo
+            # Give a little time to turn the servo
             time.sleep(.1)
-            #Take our first measurement
+            # Take our first measurement
             scan1 = us_dist(15)
-            #Give a little time for the measurement
+            # Give a little time for the measurement
             time.sleep(.1)
-            #Take the same measurement
+            # Take the same measurement
             scan2 = us_dist(15)
             # Give a little time for the measurement
             time.sleep(.1)
-            #if there's a significant difference between the measurements
+            # if there's a significant difference between the measurements
             if abs(scan1 - scan2) > 2:
-                #take a third measurement
+                # take a third measurement
                 scan3 = us_dist(15)
                 time.sleep(.1)
-                #take another scan and average? the three together - you decide
+                # take another scan and average? the three together - you decide
                 scan1 = (scan1 + scan2 + scan3) / 3
-            #store the measurement in our list
+            # store the measurement in our list
             self.scan[x] = scan1
-            #print the finding
+            # print the finding
             print("Degree: " + str(x) + ", distance: " + str(scan1))
-            #If any one finding looks bad
+            # If any one finding looks bad
             if scan1 < self.STOP_DIST:
                 print("\n--isClear method returns FALSE--\n")
                 return False
         print("\n--isClear method returns TRUE--\n")
         return True
 
+'''
     #checking surroundings while driving to speed up process
     def testDrive(self):
         print ("Here I go")
@@ -342,7 +344,7 @@ class GoPiggy(pigo.Pigo):
     def testTurn(selfself):
         self.turnR(50)
         self.turnL(60)
-        input('Accurate reporting?')
+        input('Accurate reporting?')'''
 
 ####################################################
 ############### STATIC FUNCTIONS
