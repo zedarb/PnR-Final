@@ -15,21 +15,22 @@ class GoPiggy(pigo.Pigo):
     #### (you're an instance the Human class)
     ########################
 
-    #Our servo turns the sensor. What angle of the servo( ) method sets it straight?
+    # Our servo turns the sensor. What angle of the servo( ) method sets it straight?
     MIDPOINT = 88
-    #YOU DECIDE: How close can an object get (cm) before we have to stop?
-    STOP_DIST = 30
-    #YOU DECIDE: What left motor power helps straighten your fwd()?
-    LEFT_SPEED = 140
-    #YOU DECIDE: What left motor power helps straighten your fwd()?
-    RIGHT_SPEED = 140
-    #YOU DECIDE: How long does it take your robot to turn 1 degree?
-    TIME_PER_DEGREE = 0.029
-    #YOU DECIDE: What speed modifier should we use when turning?
-    TURN_MODIFIER = .4
-    #This one isn't capitalized because it changes during runtime, the others don't
+    # How close can an object get (cm) before we have to stop?
+    STOP_DIST = 25
+    # What right motor power helps straighten your fwd()?
+    RIGHT_SPEED = 200
+    #  What left motor power helps straighten your fwd()?
+    LEFT_SPEED = 190
+    # we wanted a better way to turn
+    # lowercase because it changes overtime
     turn_track = 0
-    #Our scan list! The index will be the degree and it will store distance
+    # we found time for a 90 degree turn and adjusted it per degree
+    TIME_PER_DEGREE = 0.01
+    # robot has to go at speed 80 in order to run accurately
+    TURN_MODIFIER = .4
+    # list of all prior scans
     scan = [None] * 180
 
     ########################
@@ -129,36 +130,29 @@ class GoPiggy(pigo.Pigo):
     ########################
 
     def nav(self):
-        print("-----------! NAVIGATION ACTIVATED !------------\n")
-        print("[ Press CTRL + C to stop me, then run stop.py ]\n")
-        print("-----------! NAVIGATION ACTIVATED !------------\n")
-        # this is the loop part of the "main logic loop"
+        print("Piggy nav")
+        # main app loop
+        # loop to check the path is clear
+        # CRUISE FORWARD
         while True:
-            # if it's clear in front of me...
+            # check to see if clear
             if self.isClear():
-                # drive until something's in front of me. Good idea? you decide.
+                # if clear proceed forward
                 self.cruise()
-            if self.isClear():
-                # drive until something's in front of me. Good idea? you decide.
-                self.cruise()
-            #YOU DECIDE: check to see if you should backup?
+                # for extra safety precautions
             self.backUp()
-            # IF I HAD TO STOP, PICK A BETTER PATH
+            # if I had to stop, Pick a better path
             turn_target = self.kenny()
-            # a positive turn is right
+            # staying consistent with right being positive and left being negative
             if turn_target > 0:
                 self.turnR(turn_target)
-            # negative degrees mean left
             else:
-                # let's remove the negative with abs()
                 self.turnL(abs(turn_target))
 
     # This method drives forward as long as nothing's in the way
     def cruise(self):
-        # Extra credit: Upgrade this so it looks around while driving
-        # Use the GoPiGo API's method to aim the sensor forward
         servo(self.MIDPOINT)
-        #give the robot time to move
+        # give the robot time to move
         time.sleep(.05)
         # start driving forward
         fwd()
@@ -166,14 +160,20 @@ class GoPiggy(pigo.Pigo):
         while True:
             # break the loop if the sensor reading is closer than our stop dist
             if us_dist(15) < self.STOP_DIST:
-                break
-            #YOU DECIDE: How many seconds do you wait in between a check?
+                self.stop()
+                if us_dist(15) < self.STOP_DIST:
+                    break
+                else:
+                    fwd()
+                    continue
+
+            # YOU DECIDE: How many seconds do you wait in between a check?
             time.sleep(.05)
         # stop if the sensor loop broke
         self.stop()
 
     def backUp(self):
-        if us_dist(15) < 10:
+        if us_dist(15) < 20:
             print("Too close. Backing up for half a second")
             bwd()
             time.sleep(.5)
@@ -237,9 +237,9 @@ class GoPiggy(pigo.Pigo):
                     # store this turn as the best option
                     bestoption = turn
         if bestoption > 0:
-            input("\nABOUT TO TURN RIGHT BY: " + str(bestoption) + " degrees")
+            print("\nABOUT TO TURN RIGHT BY: " + str(bestoption) + " degrees")
         else:
-            input("\nABOUT TO TURN LEFT BY: " + str(abs(bestoption)) + " degrees")
+            print("\nABOUT TO TURN LEFT BY: " + str(abs(bestoption)) + " degrees")
         return bestoption
 
     #########################################
@@ -249,7 +249,7 @@ class GoPiggy(pigo.Pigo):
         #dump all values that might be in our list
         self.flushScan()
         #YOU DECIDE: What increment should we use when scanning?
-        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
+        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +3):
             # move the sensor that's mounted to our servo
             servo(x)
             #give some time for the servo to move
