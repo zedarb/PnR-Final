@@ -314,6 +314,7 @@ class GoPiggy(pigo.Pigo):
             time.sleep(.1)
             # if there's a significant difference between the measurements
             if abs(scan1 - scan2) > 2:
+
                 # take a third measurement
                 scan3 = us_dist(15)
                 time.sleep(.1)
