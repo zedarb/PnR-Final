@@ -34,7 +34,14 @@ METHODS
                     uses self.setSpeed method to slow down for turn
                     multiplies turn degrees by TIME_PER_DEGREE and actually turns
                     again resets speed to normal
-
+    setSpeed - adjust the robot's speed
+    nav - robot's method to move through and navigate through obstacles
+                    loops through isClear method to see if it i safe to move forward
+                    if so, it proceeds forward using the cruise method
+                    if not, the robot backs using self.backup to become a safe distance from object
+                    then using kenny's method - sets turn track
+                        depending on the scan then turns right or left
+    cruise -
 
 
 
