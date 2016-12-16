@@ -138,7 +138,9 @@ class GoPiggy(pigo.Pigo):
             # check to see if clear
             if self.isClear():
                 # if clear proceed forward
+                '''
                 self.cruise()
+                ''''
                 # for extra safety precautions
             self.backUp()
             # if I had to stop, Pick a better path
