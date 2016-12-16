@@ -138,7 +138,7 @@ class GoPiggy(pigo.Pigo):
             # check to see if clear
             if self.isClear():
                 # if clear proceed forward
-                self.encF()
+                self.encF(10)
                 '''
                 self.cruise()
                 # for extra safety precautions
@@ -253,7 +253,7 @@ class GoPiggy(pigo.Pigo):
         #dump all values that might be in our list
         self.flushScan()
         #YOU DECIDE: What increment should we use when scanning?
-        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +3):
+        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +5):
             # move the sensor that's mounted to our servo
             servo(x)
             #give some time for the servo to move
