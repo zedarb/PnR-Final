@@ -37,12 +37,28 @@ METHODS
     setSpeed - adjust the robot's speed
     nav - robot's method to move through and navigate through obstacles
                     loops through isClear method to see if it i safe to move forward
-                    if so, it proceeds forward using the cruise method
-                    if not, the robot backs using self.backup to become a safe distance from object
+                    if so, it proceeds forward using encF(10)
+                    continues to do so until sees obstacles
+                    then full scan to find path
+                        if too close, the robot backs using self.backup to become a safe distance from object
                     then using kenny's method - sets turn track
                         depending on the scan then turns right or left
-    cruise - method to move forward and assist the nav method
-
+    backUp - backs up if too close to an object
+                    if distance form object is < 20 robot backs up for .5 sec
+    kenny - turning method
+                    uses wide scan method
+                    finds ideal path to move upon by having positive readings
+                    uses turn track to try and keep robot heading the correct direction
+    wide scan - checks to see if path is clear
+                    uses flush scan so it can clear all previous scans
+                    does a full scan by checking every 5 degrees
+    isClear - checks to see if it is clear to go forward
+                    checks +- 20 degrees from midpoint to see if it is clear
+                    takes two measurements
+                    if they're vastly different - take a third scan
+                    proceed to print the findings
+    error - if there is an error: print error
+    quit - system quit
 
 
 
