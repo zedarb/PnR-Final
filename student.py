@@ -20,9 +20,9 @@ class GoPiggy(pigo.Pigo):
     # How close can an object get (cm) before we have to stop?
     STOP_DIST = 25
     # What right motor power helps straighten your fwd()?
-    RIGHT_SPEED = 200
+    RIGHT_SPEED = 150
     #  What left motor power helps straighten your fwd()?
-    LEFT_SPEED = 190
+    LEFT_SPEED = 145
     # we wanted a better way to turn
     # lowercase because it changes overtime
     turn_track = 0
@@ -176,7 +176,7 @@ class GoPiggy(pigo.Pigo):
         if us_dist(15) < 20:
             print("Too close. Backing up for half a second")
             bwd()
-            time.sleep(.5)
+            time.sleep(.05)
             self.stop()
 
     #################################
