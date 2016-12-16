@@ -138,6 +138,8 @@ class GoPiggy(pigo.Pigo):
             # check to see if clear
             while self.isClear():
                 # if clear proceed forward
+                # proceed forward until it is not clear
+                # then wide scan and find a safe path and repeat
                 self.encF(10)
                 '''
                 self.cruise()
