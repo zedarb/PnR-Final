@@ -127,7 +127,7 @@ class GoPiggy(pigo.Pigo):
     ########################
     ### MAIN LOGIC LOOP - the core algorithm of my navigation
     ### (kind of a big deal)
-    ########################
+    ######################
 
     def nav(self):
         print("Piggy nav")
