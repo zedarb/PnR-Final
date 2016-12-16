@@ -41,8 +41,7 @@ METHODS
                     if not, the robot backs using self.backup to become a safe distance from object
                     then using kenny's method - sets turn track
                         depending on the scan then turns right or left
-    cruise -
-
+    cruise - method to move forward and assist the nav method
 
 
 

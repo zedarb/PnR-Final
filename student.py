@@ -20,9 +20,9 @@ class GoPiggy(pigo.Pigo):
     # How close can an object get (cm) before we have to stop?
     STOP_DIST = 25
     # What right motor power helps straighten your fwd()?
-    RIGHT_SPEED = 145
+    RIGHT_SPEED = 150
     #  What left motor power helps straighten your fwd()?
-    LEFT_SPEED = 145
+    LEFT_SPEED = 148
     # we wanted a better way to turn
     # lowercase because it changes overtime
     turn_track = 0
@@ -137,12 +137,12 @@ class GoPiggy(pigo.Pigo):
         while True:
             # check to see if clear
             if self.isClear():
-                fwd(5)
                 # if clear proceed forward
+                self.encF(5)
                 '''
                 self.cruise()
-                '''
                 # for extra safety precautions
+                '''
             self.backUp()
             # if I had to stop, Pick a better path
             turn_target = self.kenny()
@@ -151,10 +151,11 @@ class GoPiggy(pigo.Pigo):
                 self.turnR(turn_target)
             else:
                 self.turnL(abs(turn_target))
+
     '''
     # This method drives forward as long as nothing's in the way
     def cruise(self):
-        servo(self.MIDPOINT)1
+        servo(self.MIDPOINT)
         # give the robot time to move
         time.sleep(.05)
         # start driving forward
@@ -174,8 +175,7 @@ class GoPiggy(pigo.Pigo):
             time.sleep(.05)
         # stop if the sensor loop broke
         self.stop()
-        '''
-
+    '''
     def backUp(self):
         if us_dist(15) < 20:
             print("Too close. Backing up for half a second")
@@ -253,7 +253,7 @@ class GoPiggy(pigo.Pigo):
         #dump all values that might be in our list
         self.flushScan()
         #YOU DECIDE: What increment should we use when scanning?
-        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +2):
+        for x in range(self.MIDPOINT-60, self.MIDPOINT+60, +3):
             # move the sensor that's mounted to our servo
             servo(x)
             #give some time for the servo to move
