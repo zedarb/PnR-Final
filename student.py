@@ -136,7 +136,7 @@ class GoPiggy(pigo.Pigo):
         # CRUISE FORWARD
         while True:
             # check to see if clear
-            if self.isClear():
+            while self.isClear():
                 # if clear proceed forward
                 self.encF(10)
                 '''
