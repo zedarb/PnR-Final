@@ -140,7 +140,7 @@ class GoPiggy(pigo.Pigo):
                 # if clear proceed forward
                 '''
                 self.cruise()
-                ''''
+                '''
                 # for extra safety precautions
             self.backUp()
             # if I had to stop, Pick a better path
